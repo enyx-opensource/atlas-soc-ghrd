@@ -96,12 +96,12 @@ module ghrd_top
 	input   wire       adc_sdo,
 	
     // Android IO    
-      inout  wire [15:0]   arduino_io,
-      inout  wire          arduino_reset_n,
+    inout  wire [15:0]   arduino_io,
+    inout  wire          arduino_reset_n,
 
     // GPIO
-      inout  wire [35:0]   gpio_0,
-      inout  wire [35:0]   gpio_1	
+    inout  wire [35:0]   gpio_0,
+    inout  wire [35:0]   gpio_1	
 );
 
 //REG/WIRE Declarations
@@ -113,6 +113,7 @@ wire		hps_debug_reset;
 wire [27:0] 	stm_hw_events;
 
 wire [1:0] fpga_debounced_buttons;
+
 wire [7:0] fpga_led_internal;
 
 //assignments
@@ -123,8 +124,13 @@ assign arduino_reset_n = 1'b1;
 
 assign gpio_0 = 36'hZZZZZZZZZ;
 assign gpio_1 = 36'hZZZZZZZZZ;
+assign adc_convst = 1'b0;
+assign adc_sck = 1'b0;
+assign adc_sdi = 1'b0;
+
 assign fpga_led_pio = fpga_led_internal;
 
+assign fpga_led_internal = 8'b0;
 
 // SoC sub-system module
 soc_system soc_inst (
@@ -213,12 +219,7 @@ soc_system soc_inst (
   .hps_0_hps_io_hps_io_gpio_inst_GPIO61  (hps_gpio_GPIO61), 
   
   //STM
-  .hps_0_f2h_stm_hw_events_stm_hwevents  (stm_hw_events),  
- 
-  //PIOs
-  .button_pio_export                     (fpga_debounced_buttons),
-  .dipsw_pio_export                      (fpga_dipsw_pio),
-  .led_pio_export                        (fpga_led_internal)
+  .hps_0_f2h_stm_hw_events_stm_hwevents  (stm_hw_events) 
 );  
 
 
